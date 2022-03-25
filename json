@@ -1,0 +1,36 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 500,
+  "height": 300,
+  "title": "รพ",
+  "params": [{"name": "selprovince", "select": "point"}],
+  "data": {
+    "url": "https://github.com/Koltouch/Choroplethmap/blob/main/BMA_ADMIN_SUB_DISTRICT.json",
+    "format": {"type": "topojson", "feature": "BMA_ADMIN_SUB_DISTRICT"}
+  },
+  "transform": [
+    {
+      "lookup": "properties.SUBDISTRIC",
+      "from": {
+        "data": {
+          "url": "https://github.com/Koltouch/Choroplethmap/blob/main/hos3.csv"
+        },
+        "key": "SUBDISTRIC",
+        "fields": ["count"]
+      }
+    }
+  ],
+  "projection": {"type": "mercator"},
+  "mark": "geoshape",
+  "encoding": {
+    "color": {
+      "condition": {
+        "param": "selprovince",
+        "field": "count",
+        "type": "quantitative"
+      },
+      "value": "grey"
+    },
+    "opacity": {"condition": {"param": "selprovince", "value": 1}, "value": 0.5}
+  }
+}
